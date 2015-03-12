@@ -1,0 +1,150 @@
+﻿@model PF2.Models.AskQuestionPageData
+@using PF2.Models;
+@{
+    ViewBag.Title = "QuizQuestion";
+}
+
+<h2>QuizQuestion</h2>
+
+
+@Model.question.Enunciation
+
+
+@using (Html.BeginForm())
+{
+    foreach (var option in Model.options)
+    {
+        <p>
+            @Html.RadioButtonFor(m => m.chosen, (int)option.Id)@option.IsCorrect  @option.Answer  
+        </p>
+    }
+    <input type="submit" value="Answer!" class="btn btn-default" />
+    <h2>Round</h2>
+    <br/>
+
+    var selector = Session["Quiz"] as QuestionSelector;
+    bool flag = false;
+    String availabilityDescription;
+
+
+    foreach (NodeInfo nodeInfo in selector.nodesInfo)
+    {
+        if (nodeInfo.nodeId == Model.question.NodeId)
+        {
+            if (flag)
+            {
+                <div style="float:left;">
+                    >>
+                </div>
+            }
+            <div class="roundBox">
+                @nodeInfo.nodeName
+            </div>
+            flag = true;
+        }
+    }
+
+    foreach (int nodeId in selector.Round)
+    {
+        foreach (NodeInfo nodeInfo in selector.nodesInfo)
+        {
+            if (nodeInfo.nodeId == nodeId)
+            {
+                if (flag)
+                {
+                    <div style="float:left;">
+                        >>
+                    </div>
+                }
+                    <div class="roundBox">
+                        @nodeInfo.nodeName
+                    </div>
+                flag = true;
+            }
+        }
+    }
+    <br/>
+    <h2>Information about the nodes</h2>
+    <div class="nodesInfo">
+        @foreach (NodeInfo nodeInfo in selector.nodesInfo)
+        {
+            <div class="nodeInfo"
+                 @if (nodeInfo.level.name.Equals("bad")) { String s = "style=background-color:darkred;";  @s }
+                 @if (nodeInfo.level.name.Equals("good")) { String s = "style=background-color:lightblue;";  @s }
+                 @if (nodeInfo.level.name.Equals("veryGood")) { String s = "style=background-color:steelblue;";  @s }
+                 @if (nodeInfo.level.name.Equals("unknown")) { String s = "style=background-color:goldenrod;";  @s }
+                 @if (nodeInfo.level.name.Equals("badLastQuiz")) { String s = "style=background-color:darkseagreen;";  @s }>
+                <p class="boxSubtitle">@nodeInfo.nodeName</p>
+                <hr />
+                <p>KL:@nodeInfo.level.name</p>
+                <div class="nodeInfoGeneralStatus">
+                    <p class="boxSubtitle">General Status</p>
+                    
+                    <p class="boxSubtitle">Total questions</p>
+                    <p>@nodeInfo.nQuestions</p>
+                    <p class="boxSubtitle">Correctly answered</p>
+                    <p>@nodeInfo.nCorrectlyAnsweredQuestions</p>
+                    <p class="boxSubtitle">Not correctly answered</p>
+                    <p>@nodeInfo.nNotCorrectlyAnsweredQuestions</p>
+                </div>
+                <div class="nodeInfoQuizStatus">
+                    <p class="boxSubtitle">Quiz Status</p>
+                    <p class="boxSubtitle">Correctly answered</p>
+                    <p>@nodeInfo.nCorrectlyAnsweredQuestionsInQuiz</p>
+                    <p class="boxSubtitle">Not correctly answered</p>
+                    <p>@nodeInfo.nIncorrectlyAnsweredQuestionsInQuiz</p>
+                </div>
+                <div class="availabilityInfoQuizStatus">
+                    <p class="boxSubtitle">Availability Status</p>
+                    @if (nodeInfo.availability == AvailabilityForRound.Avaliable)
+                    {
+                        <div class="availableBox">
+                            Available
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="unavailableBox">
+                            Unavailable
+                        </div>
+                    }
+                             @if (nodeInfo.availability == AvailabilityForRound.AllQuestionsCorrectlyAnswered) { <p>All registered questions were answered correctly.</p>
+                    }
+                    @if (nodeInfo.availability == AvailabilityForRound.Avaliable)
+                    {
+                        <p>There are questions available.</p>
+                    }
+                    @if (nodeInfo.availability == AvailabilityForRound.BadKnowledgeLevel)
+                    {
+                        <p>The knowledge level of the user for the node is bad. It will be better tested in the future.</p>
+                    }
+                    @if (nodeInfo.availability == AvailabilityForRound.NoNewQuestionAvaliable)
+                    {
+                        <p>The questions not answered correctly available were answered in this quiz. No repetition of questions.</p>
+                    }
+                    @if (nodeInfo.availability == AvailabilityForRound.NoQuestionsRegistered)
+                    {
+                        <p>There are no registered questions for the node.</p>
+                    }
+                </div>
+
+
+            </div>
+        }
+</div>
+
+    foreach (String s in selector.log.entrys)
+    {
+        if (s.Equals("horizontalLine"))
+        { <hr />}
+        else
+        {
+            <p>@s</p>
+        }
+    }
+}
+
+
+
+
+

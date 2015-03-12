@@ -1,0 +1,13 @@
+﻿@model int
+@using PF2.Models
+@{
+    ViewBag.Title = "EndQuiz";
+}
+
+<h2>EndQuiz</h2>
+@{
+  var selector = Session["Quiz"] as QuestionSelector;<p>
+<p> The Quiz has ended because @ViewBag.EndingReason </p>
+    <a href="@Url.Action("VisualizeTreeReport", "Quiz", new { quizId = Model })">Go to the report</a>
+</p>
+}

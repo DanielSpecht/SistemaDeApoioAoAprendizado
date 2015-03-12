@@ -1,0 +1,167 @@
+﻿body {
+ 
+}
+
+
+.header-cont
+{
+    width:100%;
+    position:fixed;
+    top:0px;
+	background:#F0F0F0;
+     border:1px solid #CCC;
+}
+.header
+{
+    height:50px;
+    background:#F0F0F0;
+   
+    width:960px;
+    margin:0px auto;
+}
+
+.header p 
+{
+    display:inline;
+    margin-right :10px;
+    margin-top:50px !important;
+    	position: relative !important;
+}
+
+.header-links {
+    top: 31%;
+    position: relative;
+}
+.page-content 
+{
+	margin-top:50px;
+}
+
+
+
+
+
+.diagnoseLine {
+    display:flex;
+}
+.report 
+{
+margin-left:40px;
+}
+.numeration
+{
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    background-color: #428bca;
+    color: white;
+    padding-left:3px;
+    padding-right:3px;
+}
+.title {
+    margin-top:0px;
+    margin-bottom:0px;
+
+}
+.subtitle {
+    margin-top:0px;
+    margin-bottom:0px;
+    color:#908383;
+}
+
+hr {
+margin-top:0px !important;
+margin-bottom:0px !important;
+
+}
+
+.nodeInfo {
+    width:185px;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #666;
+    margin-right: 10px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    float:left;
+}
+
+.nodesInfo {
+    margin-top: 10px;
+    background-color:inherit;
+}
+
+    .nodesInfo hr {
+        border-bottom: 1px solid #ccc;
+    }
+
+.nodeInfoQuizStatus {
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+        background-color: darkgray;
+}
+
+.nodeInfoGeneralStatus {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+        background-color: darkgray;
+}
+
+.boxSubtitle  {
+font-weight: bolder;
+color:white;
+}
+
+.roundBox {
+
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    float:left;
+
+}
+.availabilityInfoQuizStatus
+{
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+     background-color: darkgray;
+}
+.availableBox
+{
+        border: 1px solid #ccc;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+     background-color: green;
+     color:white;
+}
+.unavailableBox
+{
+        border: 1px solid #ccc;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+     background-color: red;
+     color:white;
+}
+
+
+.InformationBox
+{
+    -webkit-border-radius: 5px;
+    background-color: darkgrey;
+    color: white;
+    padding-left: 3px;
+    padding-right: 3px;
+    width:750px;
+}

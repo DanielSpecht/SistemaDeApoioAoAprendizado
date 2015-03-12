@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="@Url.Content("~/Contents/Styles.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Contents/Styles_tree.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Contents/bootstrap.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Contents/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Contents/Site.css")" rel="stylesheet" type="text/css" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    @Html.Partial("_Header")
+    <div class="page-content">
+        @RenderBody()
+    </div>
+</body>
+</html>

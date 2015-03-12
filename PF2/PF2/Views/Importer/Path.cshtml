@@ -1,0 +1,16 @@
+﻿@using PF2.Models
+@model ImportPath
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<p>Insira aqui o caminho para a pasta de seu sistema que corresponde a pasta raiz da árvore de conhecimento</p>
+@using (Html.BeginForm())
+{
+
+    @Html.TextBoxFor(m => m.Path)
+
+
+    <input type="submit" value="Import" class="btn btn-default" />
+}

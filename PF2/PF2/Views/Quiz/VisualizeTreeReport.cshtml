@@ -1,0 +1,154 @@
+﻿@using PF2.Models
+@model PF2.Models.TreeReport
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="~/Contents/Styles_tree.css" rel="stylesheet" type="text/css" />
+    <meta name="viewport" content="width=device-width" />
+    <title>VisualizeTree</title>
+</head>
+<body>
+    <div class="report">
+        <h1>Nodes in order of priority</h1>
+        <br>
+        @{
+            int a = 0;
+            <h4 class="title">Priority 1</h4>
+            <p class="subtitle">Roots of trees or subtrees where the member nodes have a bad knowledge level</p>
+            <hr>
+            if (Model.getSortedCategory1Nodes().Count == 0)
+            {
+                <p>None</p>
+            }
+            foreach (TreeReport t in Model.getSortedCategory1Nodes())
+            {
+                a++;
+                String numeration = a.ToString();
+                <div class="diagnoseLine">
+                    <p class="numeration">@numeration</p>
+                    <p>@t.node.Name</p>
+                </div>
+            }
+            <h4 class="title">Priority 2</h4>
+            <p class="subtitle">Roots of trees or subtrees where the member nodes have a unknown knowledge level</p>
+            <hr>
+            if (Model.getSortedCategory2Nodes().Count == 0)
+            {
+                <p>None</p>
+            }
+            foreach (TreeReport t in Model.getSortedCategory2Nodes())
+            {
+                a++;
+                String numeration = a.ToString();
+                <div class="diagnoseLine">
+                    <p class="numeration">@numeration</p>
+                    <p>@t.node.Name</p>
+                </div>
+            }
+            <h4 class="title">Priority 3</h4>
+            <p class="subtitle">Leaves of trees or subtrees where the member nodes have a good knowledge level</p>
+            <hr>
+            if (Model.getSortedCategory3Nodes().Count == 0)
+            {
+                <p>None</p>
+            }
+            foreach (TreeReport t in Model.getSortedCategory3Nodes())
+            {
+                a++;
+                String numeration = a.ToString();
+                <div class="diagnoseLine">
+                    <p class="numeration">@numeration</p>
+                    <p>@t.node.Name</p>
+                </div>
+            }
+            <h4 class="title">No Priority</h4>
+            <p class="subtitle">Completed nodes</p>
+            <hr>
+            if (Model.getSortedCategory4Nodes().Count == 0)
+            {
+                <p>None</p>
+            }
+            foreach (TreeReport t in Model.getSortedCategory4Nodes())
+            {
+                a++;
+                String numeration = a.ToString();
+                <div class="diagnoseLine">
+                    <p class="numeration">@numeration</p>
+                    <p>@t.node.Name</p>
+                </div>
+            }
+            <h4 class="title">No Priority</h4>
+            <p class="subtitle">Nodes without any valid question</p>
+            <hr>
+            if (Model.getSortedCategory5Nodes().Count == 0)
+            {
+                <p>None</p>
+            }
+            foreach (TreeReport t in Model.getSortedCategory5Nodes())
+            {
+                a++;
+                String numeration = a.ToString();
+                <div class="diagnoseLine">
+                    <p class="numeration">@numeration</p>
+                    <p>@t.node.Name</p>
+                </div>
+            }
+        }
+
+        <div class="tree">
+            <h1>Tree Status</h1>
+
+            <ul>
+                <li>
+                    <div class="node"
+                                         @if ((Model.nDescendentsWithBadKnowledgeLevel > 0) && (Model.nDescendentsWithGoodKnowledgeLevel == 0) && (Model.nDescendentsWithUnknownKnowledgeLevel == 0)) { String s = "style=background-color:crimson;color:white; ";  @s     }
+                 else if ((Model.nDescendentsWithBadKnowledgeLevel == 0) && (Model.nDescendentsWithGoodKnowledgeLevel > 0) && (Model.nDescendentsWithUnknownKnowledgeLevel == 0)) { String s = "style=background-color:cornflowerblue;color:white;";  @s    }
+                 else if ((Model.nDescendentsWithBadKnowledgeLevel == 0) && (Model.nDescendentsWithGoodKnowledgeLevel == 0) && (Model.nDescendentsWithUnknownKnowledgeLevel > 0)) { String s = "style=background-color:darkkhaki;color:white;";  @s   }
+                 else {String s = "style=background-color:white;";  @s}>
+                        <p>@Html.DisplayFor(model => model.node.Name)</p>
+                        <p class="percent">@Model.nCorrectlyAnsweredQuestions (@Model.getPercentCorrectlyAnswered()%)</p>
+                        <div class="reportTreeNodeContents">
+                            <p>@Html.DisplayFor(model => model.nCorrectlyAnsweredQuestionsInQuiz)</p><img src="~/Contents/Images/checkmark.gif">
+                        </div>
+                        <div class="reportTreeNodeContents">
+                            <p>@Html.DisplayFor(model => model.nIncorrectlyAnsweredQuestionsInQuiz)</p><img src="~/Contents/Images/x-red.gif">
+                        </div>
+                        @if (Model.sons.Count == 0)
+                        {
+                            <br>
+                            <div class="reportTreeNodeContents">
+                                <p>@Html.DisplayFor(model => model.level.name)</p>
+                            </div>
+                        }
+                        <!--
+                        <br>
+                        <div class="reportTreeNodeContents">
+                            <p>BadKL @Html.DisplayFor(model => model.nDescendentsWithBadKnowledgeLevel)</p>
+                        </div>
+                        <br>
+                        <div class="reportTreeNodeContents">
+                            <p>UnknownKL @Html.DisplayFor(model => model.nDescendentsWithUnknownKnowledgeLevel)</p>
+                        </div>
+                        <br>
+                        <div class="reportTreeNodeContents">
+                            <p>GoodKL @Html.DisplayFor(model => model.nDescendentsWithGoodKnowledgeLevel)</p>
+                        </div>-->
+
+                    </div><!--end of node class div-->
+                    @if (Model.sons.Count != 0)
+                    {
+                        <ul>
+                            @foreach (var t in Model.sons)
+                            {
+                                @Html.Partial("_PartialTreeReportView", t);
+                            }
+                        </ul>
+                    }
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

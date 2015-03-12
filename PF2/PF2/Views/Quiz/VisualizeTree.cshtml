@@ -1,0 +1,43 @@
+﻿@model PF2.Models.Tree
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="~/Contents/Styles_tree.css" rel="stylesheet" type="text/css" />
+    <meta name="viewport" content="width=device-width" />
+    <title>VisualizeTree</title>
+</head>
+<body>
+    <div class="InformationBox">
+        <p>Select the tree or subtree for the quiz.</p>
+        <p>All the nodes that will be used in the quiz will be highlighted as you hover the mouse over them!</p>
+    </div>
+    <div class="tree">
+        <ul>
+            <li>
+                <a class="node" href="@Url.Action("Create", "Quiz", new { nodeId = Model.node.Id })">
+                    <p>@Html.DisplayFor(model => model.node.Name)</p>
+
+                </a>  
+                @if (Model.sons.Count != 0)
+                {
+                    <ul>
+                        @foreach (var t in Model.sons)
+                        {
+                            @Html.Partial("_PartialTreeView", t);
+                        }
+                    </ul>
+                }
+
+
+            </li>
+        </ul>
+     </div>
+
+
+
+
+</body>
+</html>

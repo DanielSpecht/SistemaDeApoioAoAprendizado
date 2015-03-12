@@ -1,0 +1,56 @@
+﻿@model PF2.Models.TreeReport
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+        <li>
+            <div class="node" 
+                 @if ((Model.nDescendentsWithBadKnowledgeLevel > 0) && (Model.nDescendentsWithGoodKnowledgeLevel == 0) && (Model.nDescendentsWithUnknownKnowledgeLevel == 0)) { String s = "style=background-color:crimson;color:white; ";  @s     }
+                 else if ((Model.nDescendentsWithBadKnowledgeLevel == 0) && (Model.nDescendentsWithGoodKnowledgeLevel > 0) && (Model.nDescendentsWithUnknownKnowledgeLevel == 0)) { String s = "style=background-color:cornflowerblue;color:white;";  @s    }
+                 else if ((Model.nDescendentsWithBadKnowledgeLevel == 0) && (Model.nDescendentsWithGoodKnowledgeLevel == 0) && (Model.nDescendentsWithUnknownKnowledgeLevel > 0)) { String s = "style=background-color:darkkhaki;color:white;";  @s   }
+                 else {String s = "style=background-color:white;";  @s}>
+
+                <p>@Html.DisplayFor(model => model.node.Name)</p>
+                <p class="percent">@Model.nCorrectlyAnsweredQuestions (@Model.getPercentCorrectlyAnswered()%)</p>
+                <div class="reportTreeNodeContents">
+                    <p>@Html.DisplayFor(model => model.nCorrectlyAnsweredQuestionsInQuiz)</p><img src="~/Contents/Images/checkmark.gif">
+                </div>
+                <div class="reportTreeNodeContents">
+                    <p>@Html.DisplayFor(model => model.nIncorrectlyAnsweredQuestionsInQuiz)</p><img src="~/Contents/Images/x-red.gif">
+                </div>
+                @if (Model.sons.Count == 0)
+                {
+                    <br>
+                    <div class="reportTreeNodeContents">
+                        <p>@Html.DisplayFor(model => model.level.name)</p>
+                    </div>
+                }
+                <!--
+                <br>
+                <div class="reportTreeNodeContents">
+                    <p>BadKL @Html.DisplayFor(model => model.nDescendentsWithBadKnowledgeLevel)</p>
+                </div>
+                <br>
+                <div class="reportTreeNodeContents">
+                    <p>UnknownKL @Html.DisplayFor(model => model.nDescendentsWithUnknownKnowledgeLevel)</p>
+                </div>
+                <br>
+                <div class="reportTreeNodeContents">
+                    <p>GoodKL @Html.DisplayFor(model => model.nDescendentsWithGoodKnowledgeLevel)</p>
+                </div>
+                    -->
+            </div>
+
+            @if(Model.sons.Count!=0){
+
+                <ul>
+                    @foreach (var t in Model.sons)
+                    {
+                        @Html.Partial("_PartialTreeReportView", t);
+                    }
+                </ul>
+            }
+
+        </li>

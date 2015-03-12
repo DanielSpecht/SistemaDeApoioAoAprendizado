@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b84f6c6836744567beff4a22d34b6593" Name="Diagram1" ZoomLevel="86" DisplayType="true" ShowGrid="false">
+        <EntityTypeShape EntityType="DefaultConnectionModel.AspNetUsers" Width="1.75" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DefaultConnectionModel.Node" Width="1.625" PointX="7.125" PointY="0.5" IsExpanded="true" />
+        <AssociationConnector Association="DefaultConnectionModel.FK_dbo_Node_dbo_Node_NodeID" ManuallyRouted="false" >
+        </AssociationConnector>
+        <EntityTypeShape EntityType="DefaultConnectionModel.Question" Width="1.625" PointX="7.125" PointY="3" />
+        <AssociationConnector Association="DefaultConnectionModel.NodeQuestion" />
+        <EntityTypeShape EntityType="DefaultConnectionModel.AnswerOption" Width="1.625" PointX="7.125" PointY="5.25" />
+        <AssociationConnector Association="DefaultConnectionModel.QuestionAnswer" />
+        <EntityTypeShape EntityType="DefaultConnectionModel.Quiz" Width="1.875" PointX="3.375" PointY="0.5" />
+        <AssociationConnector Association="DefaultConnectionModel.AspNetUsersQuiz" />
+        <AssociationConnector Association="DefaultConnectionModel.QuizNode" />
+        <EntityTypeShape EntityType="DefaultConnectionModel.QuizAnswerQuestion" Width="2" PointX="3.375" PointY="3.875" />
+        <AssociationConnector Association="DefaultConnectionModel.QuizQuizAnswerQuestion" />
+        <AssociationConnector Association="DefaultConnectionModel.QuizAnswerQuestionAnswerOption" />
+        <AssociationConnector Association="DefaultConnectionModel.QuizAnswerQuestionQuestion" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

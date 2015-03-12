@@ -1,0 +1,46 @@
+﻿@model PF2.Models.Question
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Delete</title>
+</head>
+<body>
+    <h3>Are you sure you want to delete this?</h3>
+    <div>
+        <h4>Question</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Enunciation)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Enunciation)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Node.Name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Node.Name)
+            </dd>
+    
+        </dl>
+    
+        @using (Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+    
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                <a href="@Url.Action("ListNodeQuestions", "Questions", new { nodeId = (int)ViewBag.NodeId })">Back to List</a>
+            </div>
+        }
+    </div>
+</body>
+</html>

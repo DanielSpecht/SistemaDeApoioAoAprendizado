@@ -1,0 +1,38 @@
+﻿@model PF2.Models.Question
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Question</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Enunciation)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Enunciation)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Node.Name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Node.Name)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id, nodeId = (int)ViewBag.NodeId }) |
+        <a href="@Url.Action("ListNodeQuestions", "Questions", new { nodeId = (int)ViewBag.NodeId })">Back to List</a>    </p>
+</body>
+</html>

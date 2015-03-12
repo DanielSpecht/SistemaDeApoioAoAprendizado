@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DefaultConnectionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Country" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Quiz" Relationship="DefaultConnectionModel.AspNetUsersQuiz" FromRole="AspNetUsers" ToRole="Quiz" />
+  </EntityType>
+  <EntityType Name="Node">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ParentId" Type="Int32" />
+    <NavigationProperty Name="Node1" Relationship="Self.FK_dbo_Node_dbo_Node_NodeID" FromRole="Node" ToRole="Node1" />
+    <NavigationProperty Name="Node2" Relationship="Self.FK_dbo_Node_dbo_Node_NodeID" FromRole="Node1" ToRole="Node" />
+    <NavigationProperty Name="Question" Relationship="DefaultConnectionModel.NodeQuestion" FromRole="Node" ToRole="Question" />
+    <NavigationProperty Name="Quiz" Relationship="DefaultConnectionModel.QuizNode" FromRole="Node" ToRole="Quiz" />
+  </EntityType>
+  <Association Name="FK_dbo_Node_dbo_Node_NodeID">
+    <End Role="Node" Type="Self.Node" Multiplicity="0..1" />
+    <End Role="Node1" Type="Self.Node" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Node">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Node1">
+        <PropertyRef Name="ParentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DefaultConnectionEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
+    <EntitySet Name="Node" EntityType="Self.Node" />
+    <AssociationSet Name="FK_dbo_Node_dbo_Node_NodeID" Association="Self.FK_dbo_Node_dbo_Node_NodeID">
+      <End Role="Node" EntitySet="Node" />
+      <End Role="Node1" EntitySet="Node" />
+    </AssociationSet>
+    <EntitySet Name="Question" EntityType="DefaultConnectionModel.Question" />
+    <AssociationSet Name="NodeQuestion" Association="DefaultConnectionModel.NodeQuestion">
+      <End Role="Node" EntitySet="Node" />
+      <End Role="Question" EntitySet="Question" />
+    </AssociationSet>
+    <EntitySet Name="AnswerOption" EntityType="DefaultConnectionModel.AnswerOption" />
+    <AssociationSet Name="QuestionAnswer" Association="DefaultConnectionModel.QuestionAnswer">
+      <End Role="Question" EntitySet="Question" />
+      <End Role="Answer" EntitySet="AnswerOption" />
+    </AssociationSet>
+    <EntitySet Name="Quiz" EntityType="DefaultConnectionModel.Quiz" />
+    <AssociationSet Name="AspNetUsersQuiz" Association="DefaultConnectionModel.AspNetUsersQuiz">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Quiz" EntitySet="Quiz" />
+    </AssociationSet>
+    <AssociationSet Name="QuizNode" Association="DefaultConnectionModel.QuizNode">
+      <End Role="Quiz" EntitySet="Quiz" />
+      <End Role="Node" EntitySet="Node" />
+    </AssociationSet>
+    <EntitySet Name="QuizAnswerQuestion" EntityType="DefaultConnectionModel.QuizAnswerQuestion" />
+    <AssociationSet Name="QuizQuizAnswerQuestion" Association="DefaultConnectionModel.QuizQuizAnswerQuestion">
+      <End Role="Quiz" EntitySet="Quiz" />
+      <End Role="QuizAnswerQuestion" EntitySet="QuizAnswerQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="QuizAnswerQuestionAnswerOption" Association="DefaultConnectionModel.QuizAnswerQuestionAnswerOption">
+      <End Role="QuizAnswerQuestion" EntitySet="QuizAnswerQuestion" />
+      <End Role="AnswerOption" EntitySet="AnswerOption" />
+    </AssociationSet>
+    <AssociationSet Name="QuizAnswerQuestionQuestion" Association="DefaultConnectionModel.QuizAnswerQuestionQuestion">
+      <End Role="QuizAnswerQuestion" EntitySet="QuizAnswerQuestion" />
+      <End Role="Question" EntitySet="Question" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Question">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Node" Relationship="DefaultConnectionModel.NodeQuestion" FromRole="Question" ToRole="Node" />
+    <Property Name="NodeId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Answer" Relationship="DefaultConnectionModel.QuestionAnswer" FromRole="Question" ToRole="Answer" />
+    <Property Name="Enunciation" Type="String" Nullable="false" />
+    <NavigationProperty Name="QuizAnswerQuestion" Relationship="DefaultConnectionModel.QuizAnswerQuestionQuestion" FromRole="Question" ToRole="QuizAnswerQuestion" />
+  </EntityType>
+  <Association Name="NodeQuestion">
+    <End Type="DefaultConnectionModel.Node" Role="Node" Multiplicity="1" />
+    <End Type="DefaultConnectionModel.Question" Role="Question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Node">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Question">
+        <PropertyRef Name="NodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="AnswerOption">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Question" Relationship="DefaultConnectionModel.QuestionAnswer" FromRole="Answer" ToRole="Question" />
+    <Property Name="QuestionId" Type="Int32" Nullable="false" />
+    <Property Name="Answer" Type="String" Nullable="false" />
+    <NavigationProperty Name="QuizAnswerQuestion" Relationship="DefaultConnectionModel.QuizAnswerQuestionAnswerOption" FromRole="AnswerOption" ToRole="QuizAnswerQuestion" />
+    <Property Name="IsCorrect" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <Association Name="QuestionAnswer">
+    <End Type="DefaultConnectionModel.Question" Role="Question" Multiplicity="1" />
+    <End Type="DefaultConnectionModel.AnswerOption" Role="Answer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Answer">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Quiz">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="AspNetUsers" Relationship="DefaultConnectionModel.AspNetUsersQuiz" FromRole="Quiz" ToRole="AspNetUsers" />
+    <Property Name="AspNetUsersId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Node" Relationship="DefaultConnectionModel.QuizNode" FromRole="Quiz" ToRole="Node" />
+    <Property Name="NodeId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="QuizAnswerQuestion" Relationship="DefaultConnectionModel.QuizQuizAnswerQuestion" FromRole="Quiz" ToRole="QuizAnswerQuestion" />
+    <Property Name="StartTime" Type="DateTime" Nullable="false" />
+    <Property Name="EndTime" Type="DateTime" Nullable="true" />
+    <Property Name="NumQuestions" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="AspNetUsersQuiz">
+    <End Type="DefaultConnectionModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1" />
+    <End Type="DefaultConnectionModel.Quiz" Role="Quiz" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Quiz">
+        <PropertyRef Name="AspNetUsersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="QuizNode">
+    <End Type="DefaultConnectionModel.Quiz" Role="Quiz" Multiplicity="*" />
+    <End Type="DefaultConnectionModel.Node" Role="Node" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Node">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Quiz">
+        <PropertyRef Name="NodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="QuizAnswerQuestion">
+    <Key>
+      <PropertyRef Name="QuizId" />
+      <PropertyRef Name="QuestionId" />
+    </Key>
+    <NavigationProperty Name="Quiz" Relationship="DefaultConnectionModel.QuizQuizAnswerQuestion" FromRole="QuizAnswerQuestion" ToRole="Quiz" />
+    <Property Name="QuizId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AnswerOption" Relationship="DefaultConnectionModel.QuizAnswerQuestionAnswerOption" FromRole="QuizAnswerQuestion" ToRole="AnswerOption" />
+    <Property Name="AnswerOptionId" Type="Int32" Nullable="true" />
+    <NavigationProperty Name="Question" Relationship="DefaultConnectionModel.QuizAnswerQuestionQuestion" FromRole="QuizAnswerQuestion" ToRole="Question" />
+    <Property Name="QuestionId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="QuizQuizAnswerQuestion">
+    <End Type="DefaultConnectionModel.Quiz" Role="Quiz" Multiplicity="1" />
+    <End Type="DefaultConnectionModel.QuizAnswerQuestion" Role="QuizAnswerQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Quiz">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuizAnswerQuestion">
+        <PropertyRef Name="QuizId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="QuizAnswerQuestionAnswerOption">
+    <End Type="DefaultConnectionModel.QuizAnswerQuestion" Role="QuizAnswerQuestion" Multiplicity="*" />
+    <End Type="DefaultConnectionModel.AnswerOption" Role="AnswerOption" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="AnswerOption">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuizAnswerQuestion">
+        <PropertyRef Name="AnswerOptionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="QuizAnswerQuestionQuestion">
+    <End Type="DefaultConnectionModel.QuizAnswerQuestion" Role="QuizAnswerQuestion" Multiplicity="*" />
+    <End Type="DefaultConnectionModel.Question" Role="Question" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuizAnswerQuestion">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

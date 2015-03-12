@@ -1,0 +1,22 @@
+﻿@model PF2.Models.Tree
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+        <li>
+            <a class="node" href="@Url.Action("Create", "Quiz", new { nodeId = Model.node.Id })">
+                <p>@Html.DisplayFor(model => model.node.Name)</p>
+            </a>  
+            @if(Model.sons.Count!=0){
+
+                <ul>
+                    @foreach (var t in Model.sons)
+                    {
+                        @Html.Partial("_PartialTreeView", t);
+                    }
+                </ul>
+            }
+
+        </li>

@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DefaultConnectionModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DefaultConnectionModelStoreContainer">
+    <EntitySet Name="AspNetUsers" EntityType="DefaultConnectionModel.Store.AspNetUsers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Node" EntityType="DefaultConnectionModel.Store.Node" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Question" EntityType="DefaultConnectionModel.Store.Question" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AnswerOption" EntityType="DefaultConnectionModel.Store.AnswerOption" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Quiz" EntityType="DefaultConnectionModel.Store.Quiz" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="QuizAnswerQuestion" EntityType="DefaultConnectionModel.Store.QuizAnswerQuestion" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_dbo_Node_dbo_Node_NodeID" Association="DefaultConnectionModel.Store.FK_dbo_Node_dbo_Node_NodeID">
+      <End Role="Node" EntitySet="Node" />
+      <End Role="Node1" EntitySet="Node" />
+    </AssociationSet>
+    <AssociationSet Name="NodeQuestion" Association="DefaultConnectionModel.Store.NodeQuestion">
+      <End Role="Node" EntitySet="Node" />
+      <End Role="Question" EntitySet="Question" />
+    </AssociationSet>
+    <AssociationSet Name="QuestionAnswer" Association="DefaultConnectionModel.Store.QuestionAnswer">
+      <End Role="Question" EntitySet="Question" />
+      <End Role="Answer" EntitySet="AnswerOption" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUsersQuiz" Association="DefaultConnectionModel.Store.AspNetUsersQuiz">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Quiz" EntitySet="Quiz" />
+    </AssociationSet>
+    <AssociationSet Name="QuizNode" Association="DefaultConnectionModel.Store.QuizNode">
+      <End Role="Quiz" EntitySet="Quiz" />
+      <End Role="Node" EntitySet="Node" />
+    </AssociationSet>
+    <AssociationSet Name="QuizQuizAnswerQuestion" Association="DefaultConnectionModel.Store.QuizQuizAnswerQuestion">
+      <End Role="Quiz" EntitySet="Quiz" />
+      <End Role="QuizAnswerQuestion" EntitySet="QuizAnswerQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="QuizAnswerQuestionAnswerOption" Association="DefaultConnectionModel.Store.QuizAnswerQuestionAnswerOption">
+      <End Role="QuizAnswerQuestion" EntitySet="QuizAnswerQuestion" />
+      <End Role="AnswerOption" EntitySet="AnswerOption" />
+    </AssociationSet>
+    <AssociationSet Name="QuizAnswerQuestionQuestion" Association="DefaultConnectionModel.Store.QuizAnswerQuestionQuestion">
+      <End Role="QuizAnswerQuestion" EntitySet="QuizAnswerQuestion" />
+      <End Role="Question" EntitySet="Question" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="Country" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Email" Type="nvarchar" Nullable="true" MaxLength="256" />
+    <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+    <Property Name="PasswordHash" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="SecurityStamp" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="datetime" Nullable="true" />
+    <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="Node">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="ParentId" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Question">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NodeId" Type="int" Nullable="false" />
+    <Property Name="Enunciation" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AnswerOption">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="QuestionId" Type="int" Nullable="false" />
+    <Property Name="Answer" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsCorrect" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Quiz">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AspNetUsersId" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="NodeId" Type="int" Nullable="false" />
+    <Property Name="StartTime" Type="datetime" Nullable="false" />
+    <Property Name="EndTime" Type="datetime" Nullable="true" />
+    <Property Name="NumQuestions" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="QuizAnswerQuestion">
+    <Key>
+      <PropertyRef Name="QuizId" />
+      <PropertyRef Name="QuestionId" />
+    </Key>
+    <Property Name="QuizId" Type="int" Nullable="false" />
+    <Property Name="AnswerOptionId" Type="int" Nullable="true" />
+    <Property Name="QuestionId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_dbo_Node_dbo_Node_NodeID">
+    <End Role="Node" Type="DefaultConnectionModel.Store.Node" Multiplicity="0..1" />
+    <End Role="Node1" Type="DefaultConnectionModel.Store.Node" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Node">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Node1">
+        <PropertyRef Name="ParentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="NodeQuestion">
+    <End Role="Node" Type="DefaultConnectionModel.Store.Node" Multiplicity="1" />
+    <End Role="Question" Type="DefaultConnectionModel.Store.Question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Node">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Question">
+        <PropertyRef Name="NodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="QuestionAnswer">
+    <End Role="Question" Type="DefaultConnectionModel.Store.Question" Multiplicity="1" />
+    <End Role="Answer" Type="DefaultConnectionModel.Store.AnswerOption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Answer">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUsersQuiz">
+    <End Role="AspNetUsers" Type="DefaultConnectionModel.Store.AspNetUsers" Multiplicity="1" />
+    <End Role="Quiz" Type="DefaultConnectionModel.Store.Quiz" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Quiz">
+        <PropertyRef Name="AspNetUsersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="QuizNode">
+    <End Role="Quiz" Type="DefaultConnectionModel.Store.Quiz" Multiplicity="*" />
+    <End Role="Node" Type="DefaultConnectionModel.Store.Node" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Node">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Quiz">
+        <PropertyRef Name="NodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="QuizQuizAnswerQuestion">
+    <End Role="Quiz" Type="DefaultConnectionModel.Store.Quiz" Multiplicity="1" />
+    <End Role="QuizAnswerQuestion" Type="DefaultConnectionModel.Store.QuizAnswerQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Quiz">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuizAnswerQuestion">
+        <PropertyRef Name="QuizId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="QuizAnswerQuestionAnswerOption">
+    <End Role="QuizAnswerQuestion" Type="DefaultConnectionModel.Store.QuizAnswerQuestion" Multiplicity="*" />
+    <End Role="AnswerOption" Type="DefaultConnectionModel.Store.AnswerOption" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="AnswerOption">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuizAnswerQuestion">
+        <PropertyRef Name="AnswerOptionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="QuizAnswerQuestionQuestion">
+    <End Role="QuizAnswerQuestion" Type="DefaultConnectionModel.Store.QuizAnswerQuestion" Multiplicity="*" />
+    <End Role="Question" Type="DefaultConnectionModel.Store.Question" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuizAnswerQuestion">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

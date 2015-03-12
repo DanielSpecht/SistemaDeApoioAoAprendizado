@@ -1,0 +1,35 @@
+﻿@model PF2.Models.Tree
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+        <li>
+            <div class="node">
+                <p>@Html.DisplayFor(model => model.node.Name)</p>
+                <a href="@Url.Action("Create", "Nodes", new { parentId = Model.node.Id })"> <img src="~/Contents/Images/leaf_plus.png"> </a>
+                @if(Model.sons.Count==0){
+                    <a href="@Url.Action("Delete", "Nodes", new { id = Model.node.Id })"> <img src="~/Contents/Images/leaf_minus.png"> </a>
+                }
+                <a href="@Url.Action("Edit", "Nodes",new { id = Model.node.Id })"> <img src="~/Contents/Images/leaf_pencil.png"> </a>
+                
+                <a href="@Url.Action("Details", "Nodes", new { id = Model.node.Id })"> <img src="~/Contents/Images/leaf_lupe.png"> </a>
+
+            </div>
+            @if(Model.sons.Count!=0){
+
+                <ul>
+                    @foreach (var t in Model.sons)
+                    {
+                        @Html.Partial("_PartialTreeView", t);
+                    }
+                </ul>
+            }
+            else
+            {
+                <div class="NodeQuestionLink">
+                    <a href="@Url.Action("ListNodeQuestions", "Questions", new { nodeId = Model.node.Id })">Questions</a>
+                </div>
+            }
+        </li>
